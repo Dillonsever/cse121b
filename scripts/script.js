@@ -23,8 +23,8 @@ function displayData(data) {
 
   if (data.title && data.description) {
       const itemHTML = `<div class="item">
-                          <h2>${data.title}</h2>
-                          <p>${data.description}</p>
+                          <h2>${data.reference}</h2>
+                          <p>${data.text}</p>
                       </div>`;
       dataContainer.innerHTML = itemHTML;
   } else {
