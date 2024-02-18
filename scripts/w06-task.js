@@ -1,77 +1,58 @@
-/* W05: Programming Tasks */
-
 /* Declare and initialize global variables */
-const templesElement = document.querySelector('#temples');
-let templeList = [];
+const playersElement = document.querySelector('#players');
+let playerList = [];
 
-/* async displayTemples Function */
-const displayTemples = (temples) => {
-    temples.forEach(temple => {
-
+/* async displayPlayers Function */
+const displayPlayers = (players) => {
+    players.forEach(player => {
         const article = document.createElement('article');
     
         const h3 = document.createElement('h3');
-        h3.textContent = temple.templeName;
+        h3.textContent = player.name;
     
         const img = document.createElement('img');
-        img.src = temple.imageUrl;
-        img.alt = temple.location;
-    
+        img.src = player.imgURL;
+        img.alt = player.name;
 
         article.appendChild(h3);
         article.appendChild(img);
 
-        templesElement.appendChild(article);
+        playersElement.appendChild(article);
     });
 };
 
-/* async getTemples Function using fetch()*/
-
-const getTemples = async () => {
+/* async getPlayers Function using fetch()*/
+const getPlayers = async () => {
     try {
-
-        const response = await fetch('https://byui-cse.github.io/cse121b-ww-course/resources/temples.json');
-
-        templeList = await response.json();
-
-        displayTemples(templeList);
+        const response = await fetch('./2023-24.NBA.Roster.json');
+        playerList = await response.json();
+        displayPlayers(playerList.players);
     } catch (error) {
-        console.error('Error fetching temple data:', error);
+        console.error('Error fetching player data:', error);
     }
 };
 
 /* reset Function */
-
 const reset = () => {
-    templesElement.innerHTML = '';
+    playersElement.innerHTML = '';
 };
 
-/* filterTemples Function */
-
-const filterTemples = () => {
-
+/* filterPlayers Function */
+const filterPlayers = () => {
     reset();
-
     const filter = document.getElementById('filtered').value;
 
     switch(filter) {
-        case 'utah':
-            displayTemples(templeList.filter(temple => temple.location.includes('Utah')));
-            break;
-        case 'notutah':
-            displayTemples(templeList.filter(temple => !temple.location.includes('Utah')));
-            break;
-        case 'older':
-            displayTemples(templeList.filter(temple => new Date(temple.dedicatedDate) < new Date(1950, 0, 1)));
-            break;
+        // Add filtering options based on your requirements
         case 'all':
         default:
-            displayTemples(templeList);
+            displayPlayers(playerList.players);
             break;
     }
 };
 
-document.getElementById('filtered').addEventListener('change', filterTemples);
+document.getElementById('filtered').addEventListener('change', filterPlayers);
 
-getTemples();
+getPlayers();
+
 
